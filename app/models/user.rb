@@ -13,8 +13,26 @@ class User < ApplicationRecord
     
     #また、Rails の命名規則により、User から Relationship を取得するとき、user_id が使用されます。
     #そのため、逆方向では、foreign_key: 'follow_id' と指定して、 user_id 側ではないことを明示します。
+    has_many :favorites
+    has_many :likes, through: :favorites, source: :micropost
+    has_many :reverses_of_favorite, class_name:'Favorite', foreign_key:'micropost_id'
+    has_many :liked, through: :reverses_of_favorite, source: :user
+    
+  def like(micropost) #I'm gonna like micropost
+     self.favorites.find_or_create_by(micropost_id: micropost.id)
+    
+  end
   
-  def follow(other_user)
+  def unfavorite(micropost)
+    favorite = self.favorites.find_by(micropost_id: micropost.id)
+    favorite.destroy if favorite
+  end
+  
+  def liking?(micropost)
+    self.likes.include?(micropost)
+  end
+  
+  def follow(other_user)#引数名は何をフォローするのか
     unless self == other_user
       self.relationships.find_or_create_by(follow_id: other_user.id)
     end

@@ -12,10 +12,14 @@
         <div>
           <% if current_user == micropost.user %>
             <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+            <!--micropostをdeletemethodに渡して、確認させる-->
           <% end %>
+          <%= render 'favorites/favorite_button', micropost: micropost %> 
+          <!--each do のmicropostが入るから右にmicropostが入るし、favorite_buttonのなかのmicropostに代入させたいから
+          左にmicropostが入る。each do のなかは@つかない-->
         </div>
       </div>
     </li>
   <% end %>
-  <%= paginate microposts %>
+
 </ul>
