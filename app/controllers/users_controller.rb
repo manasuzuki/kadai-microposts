@@ -46,9 +46,11 @@ class UsersController < ApplicationController
    
     counts(@user)
   end
+  
   private
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    #ユーザー全員に要求するよ
   end
   
 end

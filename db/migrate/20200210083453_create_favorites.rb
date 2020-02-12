@@ -6,7 +6,7 @@ class CreateFavorites < ActiveRecord::Migration[5.2]
 
       t.timestamps
       
-      t.index [:user_id, :micropost_id], unique: true
+      t.index [:user_id, :micropost_id], unique: true #速度が速くなるらしい
     end
   end
 end
